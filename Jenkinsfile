@@ -10,7 +10,7 @@ pipeline {
 
     stage('Checkout Code') {
       steps {
-        git 'https://github.com/Pritam-Kushwah-vwaves/Ticket-management.git'
+        git branch: 'main', url: 'https://github.com/Pritam-Kushwah-vwaves/Ticket-management.git'
       }
     }
 
