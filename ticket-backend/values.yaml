@@ -1,0 +1,27 @@
+replicaCount: 1
+
+image:
+  repository: ticket-backend
+  tag: "1.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8080
+
+env:
+  SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/ticket_db
+  SPRING_DATASOURCE_USERNAME: root
+  SPRING_DATASOURCE_PASSWORD: root
+
+secrets:
+  GROQ_API_KEY: ${GROQ_API_KEY}
+  GROQ_API_URL: ${GROQ_API_URL}
+
+
+serviceAccount:
+  create: false
+  name: ""
+
+ingress:
+  enabled: false
