@@ -25,10 +25,10 @@ services:
       - "8080:8080"
     networks:
       - ticket-network
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-9:3306/ticket_db
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
+    # environment:
+    #   SPRING_DATASOURCE_URL: jdbc:mysql://mysql-9:3306/ticket_db
+    #   SPRING_DATASOURCE_USERNAME: root
+    #   SPRING_DATASOURCE_PASSWORD: root
 
 networks:
   ticket-network:

@@ -6,9 +6,6 @@ pipeline {
     IMAGE_TAG = "latest"
   }
 
-  tools {
-    maven 'M3'
-  }
 
   stages {
 
@@ -23,6 +20,8 @@ pipeline {
         sh 'mvn clean package -DskipTests'
       }
     }
+
+
 
     stage('Build Docker Image') {
       steps {
