@@ -45,17 +45,17 @@ pipeline {
       }
     }
 
-    stage('Deploy to Kubernetes (dev)') {
-      steps {
-        withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
-          sh '''
-            helm upgrade --install ticket-backend ./ticket-backend \
-            -n dev \
-            --set image.repository=$IMAGE_NAME \
-            --set image.tag=$IMAGE_TAG
-          '''
-        }
-      }
-    }
+    // stage('Deploy to Kubernetes (dev)') {
+    //   steps {
+    //     withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+    //       sh '''
+    //         helm upgrade --install ticket-backend ./ticket-backend \
+    //         -n dev \
+    //         --set image.repository=$IMAGE_NAME \
+    //         --set image.tag=$IMAGE_TAG
+    //       '''
+    //     }
+    //   }
+    // }
   }
 }
