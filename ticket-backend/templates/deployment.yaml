@@ -19,20 +19,33 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: SPRING_DATASOURCE_URL
-              value: {{ .Values.env.SPRING_DATASOURCE_URL | quote }}
-            - name: SPRING_DATASOURCE_USERNAME
-              value: {{ .Values.env.SPRING_DATASOURCE_USERNAME | quote }}
-            - name: SPRING_DATASOURCE_PASSWORD
-              value: {{ .Values.env.SPRING_DATASOURCE_PASSWORD | quote }}
-            # - name: GROQ_API_KEY
-            #   value: {{ .Values.env.GROQ_API_KEY | quote }}
-            # - name: GROQ_API_URL
-            #   value: {{ .Values.env.GROQ_API_URL | quote }}
-            {{- range $key, $value := .Values.secrets }}
-            - name: {{ $key }}
+            - name: GROQ_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ $.Release.Name }}-secret
-                  key: {{ $key }}
-            {{-  end }}
+                  name: ticket-backend-api-secret
+                  key: GROQ_API_KEY
+
+            - name: GROQ_API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ticket-backend-api-secret
+                  key: GROQ_API_URL
+
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ticket-backend-secret
+                  key: SPRING_DATASOURCE_URL
+
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ticket-backend-secret
+                  key: SPRING_DATASOURCE_USERNAME
+
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ticket-backend-secret
+                  key: SPRING_DATASOURCE_PASSWORD      
+            

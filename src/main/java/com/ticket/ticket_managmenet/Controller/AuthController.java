@@ -15,6 +15,12 @@ public class AuthController {
         this.authService = authService;
     }
 
+    @GetMapping("/check")
+    public String check()
+    {
+        return "OK";
+    }
+
     @PostMapping("/register")
     public String register(@RequestBody User user) {
         authService.register(user);
