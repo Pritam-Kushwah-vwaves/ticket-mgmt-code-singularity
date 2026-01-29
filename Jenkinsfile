@@ -11,10 +11,15 @@ pipeline {
 
     stage('Checkout Code') {
       steps {
-        //git branch: 'main', url: 'https://github.com/Pritam-Kushwah-vwaves/Ticket-management.git'
-        sh 'ls -la'
+        git branch: 'main', url: 'https://github.com/Pritam-Kushwah-vwaves/Ticket-management.git'
       }
     }
+
+    stage('Build') {
+            steps {
+                sh 'ls -la'
+            }
+        }
 
     stage('Build App') {
       steps {

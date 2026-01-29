@@ -4,7 +4,6 @@ import com.ticket.ticket_managmenet.Model.Ticket_Entity;
 import com.ticket.ticket_managmenet.Model.User;
 import com.ticket.ticket_managmenet.Repository.UserRepository;
 import com.ticket.ticket_managmenet.Service.Ticket_Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;

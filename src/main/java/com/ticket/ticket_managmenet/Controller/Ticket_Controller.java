@@ -55,6 +55,12 @@ public class Ticket_Controller {
         return ticketService.getTicketsForUser(currentUser);
     }
 
+    @GetMapping("getTickets")
+    public List<Ticket_Entity> getAllTickets()
+    {
+        return ticketService.getAllTicketsForAdmin();
+    }
+
     /* GET BY ID */
     /* ADMIN or OWNER */
 
