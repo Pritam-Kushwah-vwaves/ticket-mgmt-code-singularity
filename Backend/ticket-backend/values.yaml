@@ -1,0 +1,19 @@
+replicaCount: 1
+
+image:
+  repository: ticket-backend
+  tag: "1.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8080
+
+
+
+serviceAccount:
+  create: false
+  name: ""
+
+ingress:
+  enabled: false
