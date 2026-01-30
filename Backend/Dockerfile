@@ -6,6 +6,7 @@ RUN apk update && apk add --no-cache openssl musl openjdk17
 ARG APP_NAME
 ENV APP_NAME=$APP_NAME
 
+ENV SERVICE_PATH=/opt/visionwaves/$APP_NAME
 
 #Creating Service Path
 RUN mkdir -p $SERVICE_PATH
