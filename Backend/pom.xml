@@ -194,7 +194,7 @@
                                       tofile="${project.build.directory}/docker/${project.build.finalName}.jar"/>
                                 
                                 <!-- Copy run.sh script -->
-                                <copy file="${project.basedir}/Docker/run.sh" 
+                                <copy file="${project.basedir}/run.sh" 
                                       tofile="${project.build.directory}/docker/run.sh"/>
                                 
                                 <!-- Make run.sh executable -->
