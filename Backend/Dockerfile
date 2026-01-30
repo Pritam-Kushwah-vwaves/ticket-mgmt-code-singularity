@@ -10,7 +10,6 @@ ENV SERVICE_PATH=/opt/visionwaves/$APP_NAME
 
 #Creating Service Path
 RUN mkdir -p $SERVICE_PATH
-RUN mkdir -p $SSL_VAULT_PATH
 
 #Adding TAR to servicePath
 ADD ./$APP_NAME.tar $SERVICE_PATH
