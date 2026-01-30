@@ -2,12 +2,12 @@ replicaCount: 1
 
 image:
   repository: ticket-backend
-  tag: "1.0"
+  tag: "latest"
   pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
-  port: 8080
+  port: 8082  
 
 
 

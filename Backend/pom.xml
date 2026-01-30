@@ -142,6 +142,129 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/docker/lib</outputDirectory>
+                            <includeScope>runtime</includeScope>
+                            <excludeTransitive>false</excludeTransitive>
+                            <stripVersion>false</stripVersion>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>prepare-docker</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- Create Docker directory in target -->
+                                <mkdir dir="${project.build.directory}/docker"/>
+                                
+                                <!-- Create lib directory -->
+                                <mkdir dir="${project.build.directory}/docker/lib"/>
+                                
+                                <!-- Copy Dockerfile -->
+                                <copy file="${project.basedir}/Dockerfile" 
+                                      tofile="${project.build.directory}/docker/Dockerfile"/>
+                                
+                                <!-- Copy application.properties -->
+                                <copy file="${project.basedir}/src/main/resources/application.properties" 
+                                      tofile="${project.build.directory}/docker/application.properties"/>
+                                
+                                <!-- Copy JAR file -->
+                                <copy file="${project.build.directory}/${project.build.finalName}.jar" 
+                                      tofile="${project.build.directory}/docker/${project.build.finalName}.jar"/>
+                                
+                                <!-- Copy run.sh script -->
+                                <copy file="${project.basedir}/Docker/run.sh" 
+                                      tofile="${project.build.directory}/docker/run.sh"/>
+                                
+                                <!-- Make run.sh executable -->
+                                <chmod file="${project.build.directory}/docker/run.sh" perm="755" failonerror="false"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>cleanup-target</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- Move docker and JAR to temp location outside target -->
+                                <move file="${project.build.directory}/docker" 
+                                      tofile="${project.basedir}/docker.tmp"/>
+                                <move file="${project.build.directory}/${project.build.finalName}.jar" 
+                                      tofile="${project.basedir}/${project.build.finalName}.jar.tmp"/>
+                                <move file="${project.build.directory}/${project.build.finalName}.jar.original" 
+                                      tofile="${project.basedir}/${project.build.finalName}.jar.original.tmp" 
+                                      failonerror="false"/>
+                                
+                                <!-- Delete everything in target -->
+                                <delete includeemptydirs="true">
+                                    <fileset dir="${project.build.directory}">
+                                        <include name="**/*"/>
+                                    </fileset>
+                                </delete>
+                                
+                                <!-- Move docker back -->
+                                <move file="${project.basedir}/docker.tmp" 
+                                      tofile="${project.build.directory}/docker"/>
+                                <!-- Move JAR back for install phase -->
+                                <move file="${project.basedir}/${project.build.finalName}.jar.tmp" 
+                                      tofile="${project.build.directory}/${project.build.finalName}.jar"/>
+                                <move file="${project.basedir}/${project.build.finalName}.jar.original.tmp" 
+                                      tofile="${project.build.directory}/${project.build.finalName}.jar.original" 
+                                      failonerror="false"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>final-cleanup</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- After install, remove JAR files and keep only docker -->
+                                <move file="${project.build.directory}/docker" 
+                                      tofile="${project.basedir}/docker.tmp"/>
+                                
+                                <!-- Delete everything in target -->
+                                <delete includeemptydirs="true">
+                                    <fileset dir="${project.build.directory}">
+                                        <include name="**/*"/>
+                                    </fileset>
+                                </delete>
+                                
+                                <!-- Move docker back -->
+                                <move file="${project.basedir}/docker.tmp" 
+                                      tofile="${project.build.directory}/docker"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

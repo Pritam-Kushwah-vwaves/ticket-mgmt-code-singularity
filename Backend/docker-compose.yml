@@ -16,7 +16,9 @@ services:
       - mysql_data:/var/lib/mysql
 
   backend:
-    build: .
+    build:
+      context: ./target/docker
+      dockerfile: Dockerfile
     container_name: ticket-backend
     restart: always
     depends_on:
