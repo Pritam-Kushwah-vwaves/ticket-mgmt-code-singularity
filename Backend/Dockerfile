@@ -1,21 +1,38 @@
-FROM eclipse-temurin:17-jdk-jammy
+FROM container.visionwaves.com/visionwaves/alpine-fixed:3.20.3
 
-WORKDIR /app
+RUN apk update && apk add --no-cache openssl musl openjdk17
 
-# Copy lib directory with external dependencies
-COPY lib/ /app/lib/
+#Argument
+ARG APP_NAME
+ENV APP_NAME=$APP_NAME
 
-# Copy JAR file
-COPY Ticket_Managmenet-0.0.1-SNAPSHOT.jar /app/Ticket_Managmenet-0.0.1-SNAPSHOT.jar
 
-# Copy application properties (optional, can be overridden by environment variables)
-COPY application.properties /app/application.properties
+#Creating Service Path
+RUN mkdir -p $SERVICE_PATH
+RUN mkdir -p $SSL_VAULT_PATH
 
-# Copy run script
-COPY run.sh /app/run.sh
-RUN chmod +x /app/run.sh
+#Adding TAR to servicePath
+ADD ./$APP_NAME.tar $SERVICE_PATH
+
+#Changing Workspace
+WORKDIR $SERVICE_PATH
+
+# Create a non-root user with UID 1001
+RUN adduser -D -u 1001 visionwaves
+
+#Change username
+ENV USER_NAME visionwaves
+
+# Remove dockerfile from container
+RUN rm -rf $SERVICE_PATH/Dockerfile
+
+# Set ownership for the service path
+RUN chown -R $USER_NAME:$USER_NAME $SERVICE_PATH $SSL_VAULT_PATH
+
+# Switch to the non-root user
+USER $USER_NAME
 
 EXPOSE 8082
 
-# Use run.sh as entrypoint
-ENTRYPOINT ["/app/run.sh"]
+#CMD
+CMD sh run.sh start ; sleep 15s ; tail -f logs/service.log
