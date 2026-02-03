@@ -3,7 +3,7 @@
 # Run script for Ticket Management Application
 # This script is used to start the Spring Boot application in Docker container
 
-source /vault/secret/secrets.env
+source /vault/secrets/secrets.env
 
 JAR_FILE="Ticket_Managmenet-0.0.1-SNAPSHOT.jar"
 JAVA_OPTS="${JAVA_OPTS:-}"
