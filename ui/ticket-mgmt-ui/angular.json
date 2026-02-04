@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "UI_Ticket_Management": {
+    "ticket-mgmt-ui": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -56,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "UI_Ticket_Management:build:production"
+              "buildTarget": "ticket-mgmt-ui:build:production"
             },
             "development": {
-              "buildTarget": "UI_Ticket_Management:build:development"
+              "buildTarget": "ticket-mgmt-ui:build:development"
             }
           },
           "defaultConfiguration": "development"

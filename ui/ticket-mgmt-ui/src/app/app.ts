@@ -8,7 +8,7 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('UI_Ticket_Management');
+  protected readonly title = signal('Ticket Management UI');
   authService: any;
 
   ngOnInit(){
