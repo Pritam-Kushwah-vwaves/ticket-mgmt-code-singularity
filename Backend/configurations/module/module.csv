@@ -1,0 +1,2 @@
+uuid,name,parentUuid,details,icon,displayname,iconname,settings,enabled,permission,solutionName,isApplication,Api,type,applicationusageType,category,cruTag
+7c57c7a1-eb92-4cd1-8811-fd62ed9559d6,Sample-App-Module,,Sample-App-Module,,Sample-App-Module,icomoon applications-menu,{},true,,CORE,false,,OPERATIONAL,WEB,NA,product_V.1.0.1

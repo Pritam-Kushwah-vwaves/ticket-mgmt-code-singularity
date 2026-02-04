@@ -1,0 +1,161 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Generated Sample Service",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8081/sample",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Health",
+      "description": "Health check endpoints"
+    }
+  ],
+  "paths": {
+    "/ping": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Ping endpoint",
+        "description": "Simple ping endpoint to check if the service is running",
+        "operationId": "ping",
+        "responses": {
+          "200": {
+            "description": "Success|OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "pong"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Something went wrong",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "default": []
+          }
+        ],
+        "x-auth-type": "Application & Application User",
+        "x-throttling-tier": "Unlimited",
+        "x-wso2-application-security": {
+          "security-types": [
+            "oauth2"
+          ],
+          "optional": false
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "default": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://localhost:9443/oauth2/token",
+            "scopes": {}
+          }
+        }
+      }
+    }
+  },
+  "x-wso2-api-key-header": "ApiKey",
+  "x-wso2-auth-header": "Authorization",
+  "x-wso2-cors": {
+    "corsConfigurationEnabled": false,
+    "accessControlAllowOrigins": [
+      "*"
+    ],
+    "accessControlAllowCredentials": false,
+    "accessControlAllowHeaders": [
+      "authorization",
+      "Access-Control-Allow-Origin",
+      "Content-Type",
+      "SOAPAction",
+      "apikey",
+      "Internal-Key"
+    ],
+    "accessControlAllowMethods": [
+      "GET",
+      "PUT",
+      "POST",
+      "DELETE",
+      "PATCH",
+      "OPTIONS"
+    ]
+  },
+  "x-wso2-production-endpoints": {
+      "urls": [
+      "http://x101-service/sample"
+    ],
+    "type": "http"
+  },
+  "x-wso2-sandbox-endpoints": {
+      "urls": [
+      "http://x101-service/sample"
+    ],
+    "type": "http"
+  },
+  "x-wso2-basePath": "/apim/sample/1.0",
+  "x-wso2-transports": [
+    "http",
+    "https"
+  ],
+  "x-wso2-application-security": {
+    "security-types": [
+      "oauth2"
+    ],
+    "optional": false
+  },
+  "x-wso2-response-cache": {
+    "enabled": false,
+    "cacheTimeoutInSeconds": 300
+  }
+}

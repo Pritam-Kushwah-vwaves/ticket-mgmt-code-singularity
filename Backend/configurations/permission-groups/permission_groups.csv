@@ -1,0 +1,2 @@
+ModuleName,PermissionGroupName,UserSpaceName,PermissionNames,Description,cruTag
+Conversation Agent,SAMPLE_PERMISSION_GROUP,NETWORK,"ROLE_FEAT_ADMIN_MY_PROFILE_canChangePassword#enabled#UPDATE,ROLE_FEAT_SAMPLE_APP_MODULE#enabled#VIEW,ROLE_FEAT_ADMIN_MY_PROFILE_canEditMyProfile#enabled#UPDATE,ROLE_FEAT_X_APP_PROFILE_ACTION#enabled#OTHERS,ROLE_FEAT_COREMENU_canViewProfile#enabled#VIEW",SAMPLE_PERMISSION_GROUP,product_V.1.0.1

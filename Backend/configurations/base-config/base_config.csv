@@ -1,0 +1,2 @@
+configKey*,configTag*,module.name*,configValue*,configType*,interfaceConfig(YES/NO)*,isSensitive(true/false)*,cruTag*,displayName*,description*,enabled(true/false)*
+SAMPLE_BASE_CONFIG,SAMPLE,Sample-App-Module,{},SAMPLE,true,false,product.v.1.6,,,true
