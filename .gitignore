@@ -40,11 +40,17 @@ build/
 /tmp
 /out-tsc
 /bazel-out
+**/dist/
+**/tmp/
+**/out-tsc/
 
 # Node
 /node_modules
+**/node_modules/
 npm-debug.log
 yarn-error.log
+yarn.lock
+.pnpm-debug.log
 
 # IDEs and editors
 .idea/
@@ -63,15 +69,51 @@ yarn-error.log
 !.vscode/extensions.json
 .history/*
 
-# Miscellaneous
+# Angular
 /.angular/cache
+**/.angular/cache/
 .sass-cache/
 /connect.lock
 /coverage
+**/coverage/
 /libpeerconnection.log
 testem.log
 /typings
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.local
+.env.*.local
+**/.env
+**/.env.local
+**/.env.*.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
 
 # System files
 .DS_Store
 Thumbs.db
+*.swp
+*.swo
+*~
+
+# Build artifacts
+*.tgz
+*.tar.gz
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+.vuepress/dist/
+.serverless/
+.fusebox/
+.dynamodb/
+.tern-port
