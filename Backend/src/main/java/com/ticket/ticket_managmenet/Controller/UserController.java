@@ -3,10 +3,9 @@ package com.ticket.ticket_managmenet.Controller;
 import com.ticket.ticket_managmenet.Dto.UserResponseDTO;
 import com.ticket.ticket_managmenet.Model.User;
 import com.ticket.ticket_managmenet.Repository.UserRepository;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,19 +23,23 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @PreAuthorize("hasAuthority('USER_VIEW')")
     @GetMapping
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
 
-    @PreAuthorize("hasAuthority('USER_VIEW') or hasAuthority('TICKET_CREATE')")
     @GetMapping("/me")
-    public UserResponseDTO getCurrentUser(Authentication authentication) {
+    public UserResponseDTO getCurrentUser(
+            @RequestHeader(value = "X-Username", required = false) String username
+    ) {
+        if (username == null || username.isEmpty()) {
+            throw new RuntimeException("X-Username header is required");
+        }
+        
         User user = userRepository
-                .findByUsername(authentication.getName())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found: " + username));
 
         return new UserResponseDTO(
                 user.getId(),

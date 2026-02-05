@@ -4,8 +4,6 @@ import com.ticket.ticket_managmenet.Model.Ticket_Entity;
 import com.ticket.ticket_managmenet.Model.User;
 import com.ticket.ticket_managmenet.Repository.UserRepository;
 import com.ticket.ticket_managmenet.Service.Ticket_Service;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,17 +30,16 @@ public class Ticket_Controller {
         return "OK";
     }
 
-    @PreAuthorize("hasAuthority('TICKET_CREATE')")
     @PostMapping(
             value = "/create",
             consumes = "multipart/form-data"
     )
     public Ticket_Entity createTicket(
             @RequestPart("file") MultipartFile file,
-            Authentication authentication
+            @RequestHeader(value = "X-Username", required = false) String username
     ) {
         System.out.println("Aa gai request");
-        User currentUser = getCurrentUser(authentication);
+        User currentUser = getCurrentUser(username);
         return ticketService.createTicket(file, currentUser);
     }
 
@@ -50,8 +47,10 @@ public class Ticket_Controller {
     /* ADMIN → ALL | GENERAL → OWN */
 
     @GetMapping
-    public List<Ticket_Entity> getTickets(Authentication authentication) {
-        User currentUser = getCurrentUser(authentication);
+    public List<Ticket_Entity> getTickets(
+            @RequestHeader(value = "X-Username", required = false) String username
+    ) {
+        User currentUser = getCurrentUser(username);
         return ticketService.getTicketsForUser(currentUser);
     }
 
@@ -67,9 +66,9 @@ public class Ticket_Controller {
     @GetMapping("/{id}")
     public Ticket_Entity getTicketById(
             @PathVariable Long id,
-            Authentication authentication
+            @RequestHeader(value = "X-Username", required = false) String username
     ) {
-        User currentUser = getCurrentUser(authentication);
+        // Username can be used for authorization checks if needed in the future
         return ticketService.getTicketById(id);
     }
 
@@ -80,9 +79,9 @@ public class Ticket_Controller {
     public Ticket_Entity updateTicket(
             @PathVariable Long id,
             @RequestBody Ticket_Entity ticket,
-            Authentication authentication
+            @RequestHeader(value = "X-Username", required = false) String username
     ) {
-        User currentUser = getCurrentUser(authentication);
+        User currentUser = getCurrentUser(username);
         return ticketService.updateTicket(id, ticket, currentUser);
     }
 
@@ -92,9 +91,9 @@ public class Ticket_Controller {
     @DeleteMapping("/delete/{id}")
     public String deleteTicket(
             @PathVariable Long id,
-            Authentication authentication
+            @RequestHeader(value = "X-Username", required = false) String username
     ) {
-        User currentUser = getCurrentUser(authentication);
+        User currentUser = getCurrentUser(username);
         ticketService.deleteTicket(id, currentUser);
         return "Ticket deleted successfully";
     }
@@ -106,18 +105,25 @@ public class Ticket_Controller {
     public Ticket_Entity assignTicket(
             @PathVariable Long ticketId,
             @PathVariable Long userId,
-            Authentication authentication
+            @RequestHeader(value = "X-Username", required = false) String username
     ) {
-        User currentUser = getCurrentUser(authentication);
+        User currentUser = getCurrentUser(username);
         return ticketService.assignTicket(ticketId, userId, currentUser);
     }
 
     /* HELPER */
 
-    private User getCurrentUser(Authentication authentication) {
+    private User getCurrentUser(String username) {
+        if (username == null || username.isEmpty()) {
+            // If no username provided, get first user as default (or handle as needed)
+            return userRepository.findAll()
+                    .stream()
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("No users found in database"));
+        }
         return userRepository
-                .findByUsername(authentication.getName())
+                .findByUsername(username)
                 .orElseThrow(() ->
-                        new RuntimeException("User not found"));
+                        new RuntimeException("User not found: " + username));
     }
 }
